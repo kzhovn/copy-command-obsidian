@@ -3,7 +3,7 @@
 	"name": "Copy note",
 	"version": "0.0.1",
 	"minAppVersion": "0.9.12",
-	"description": "Adds 'copy note' to the command pallete.",
+	"description": "Augments native Obsidian note copying.",
 	"author": "kzhovn",
 	"authorUrl": "https://github.com/kzhovn",
 	"isDesktopOnly": false

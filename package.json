@@ -1,7 +1,7 @@
 {
   "name": "copy-note",
   "version": "0.0.1",
-  "description": "Adds 'copy note' to the command pallete.",
+  "description": "Augments native Obsidian note copying",
   "main": "main.js",
   "scripts": {
     "dev": "rollup --config rollup.config.js -w",
