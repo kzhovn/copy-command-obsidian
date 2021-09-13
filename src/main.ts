@@ -8,6 +8,7 @@ export default class MyPlugin extends Plugin {
 		this.addCommand({
 			id: 'copy-note',
 			name: 'Copy active note',
+			icon: 'two-blank-pages',
 
 			checkCallback: (checking: boolean) => {
 				let leaf = this.app.workspace.activeLeaf;
@@ -16,7 +17,7 @@ export default class MyPlugin extends Plugin {
 						const activeView = this.app.workspace.getActiveFile(); //return TFile
 						if (activeView) { // if it exists
 							const path = activeView.parent.path
-							const newFile = path + "/" + activeView.basename + " 1" + ".md" 
+							const newFile = path + "/" + activeView.basename + " 1" + activeView.extension 
 							this.app.vault.copy(activeView, newFile)
 						}
 					}
