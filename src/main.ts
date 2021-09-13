@@ -12,14 +12,14 @@ export default class MyPlugin extends Plugin {
 
 			checkCallback: (checking: boolean) => {
 				let leaf = this.app.workspace.activeLeaf;
-				if (leaf) {
-					if (!checking) {
-						const activeView = this.app.workspace.getActiveFile(); //return TFile
-						if (activeView) { // if it exists
-							const path = activeView.parent.path
-							const newFile = path + "/" + activeView.basename + " 1" + activeView.extension 
+				const activeView = this.app.workspace.getActiveFile(); //return TFile
+
+				if (leaf && activeView) {
+					if (!checking ) {
+							const folderPath = activeView.parent.path
+							const newFile = folderPath + "/" + activeView.basename + " 1." + activeView.extension 
 							this.app.vault.copy(activeView, newFile)
-						}
+					
 					}
 					return true;
 				}
