@@ -15,8 +15,9 @@ export default class MyPlugin extends Plugin {
 					if (!checking) {
 						const activeView = this.app.workspace.getActiveFile(); //return TFile
 						if (activeView) { // if it exists
-							const newPath = "/" + "Copy of " + activeView.name
-							this.app.vault.copy(activeView, newPath)
+							const path = activeView.parent.path
+							const newFile = path + "/" + activeView.basename + " 1" + ".md" 
+							this.app.vault.copy(activeView, newFile)
 						}
 					}
 					return true;
