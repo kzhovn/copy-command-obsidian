@@ -1,10 +1,1 @@
-## Overview
-
-This is a sample plugin for Obsidian (https://obsidian.md). I have modified the official sample plugin to make it easier for myself to start plugins.
-
-[Demo/screenshot]
-
-## Usage
-
-## Settings
-
+Adds a "Copy active note" command to the command pallete. That's it, that's the plugin.

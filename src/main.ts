@@ -1,47 +1,33 @@
-import { App, Modal, Notice, Plugin } from 'obsidian';
-import { SampleSettingTab, MyPluginSettings, DEFAULT_SETTINGS } from './settings';
+import { Plugin, Vault } from 'obsidian';
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
 
 	async onload() {
-		console.log('Loading PLUGIN_NAME...');
-
-		await this.loadSettings();
-
-		this.addRibbonIcon('icon', 'PLUGIN_NAME', () => {
-			//do something on click
-		});
+		console.log('Loading copy note...');
 
 		this.addCommand({
-			id: 'open-sample-modal',
-			name: 'Open Sample Modal',
+			id: 'copy-note',
+			name: 'Copy active note',
 
 			checkCallback: (checking: boolean) => {
 				let leaf = this.app.workspace.activeLeaf;
 				if (leaf) {
 					if (!checking) {
-						//do something
+						const activeView = this.app.workspace.getActiveFile(); //return TFile
+						if (activeView) { // if it exists
+							const newPath = "/" + "Copy of " + activeView.name
+							this.app.vault.copy(activeView, newPath)
+						}
 					}
 					return true;
 				}
 				return false;
 			}
 		});
-
-		this.addSettingTab(new SampleSettingTab(this.app, this));
 	}
 
 	onunload() {
-		console.log('Unloading PLUGIN_NAME');
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
+		console.log('Unloading copy note');
 	}
 }
 

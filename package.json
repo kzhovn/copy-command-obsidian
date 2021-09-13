@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-sample-plugin",
+  "name": "copy-note",
   "version": "0.0.1",
-  "description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+  "description": "Adds 'copy note' to the command pallete.",
   "main": "main.js",
   "scripts": {
     "dev": "rollup --config rollup.config.js -w",
