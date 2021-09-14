@@ -1,7 +1,7 @@
 {
 	"id": "copy-note",
 	"name": "Enhance Copy Note",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"minAppVersion": "0.9.12",
 	"description": "Augments native Obsidian note copying.",
 	"author": "kzhovn",
