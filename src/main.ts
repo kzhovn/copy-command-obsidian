@@ -1,4 +1,4 @@
-import { Plugin, TFile } from 'obsidian';
+import { Plugin, TFile, MarkdownView } from 'obsidian';
 
 const FILE_COPY_ICON = "two-blank-pages"
 
@@ -28,7 +28,13 @@ export default class CopyPlugin extends Plugin {
 		});
 
 		this.registerEvent(
-			this.app.workspace.on("file-menu", (menu) => {
+			this.app.workspace.on("file-menu", (menu, _, source) => {
+
+				//don't show in menu if I don't have a file open
+				if (source !== "pane-more-options") {
+					return;
+				}
+
 				menu.addItem((item) => { item
 					.setTitle("Make a copy")
 					.setIcon(FILE_COPY_ICON)
