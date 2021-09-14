@@ -47,10 +47,12 @@ export default class CopyPlugin extends Plugin {
 	}
 
 	//copy a file to the same folder with name "Old Name 1"
-	copyInFolder(originalFile: TFile) {
+	async copyInFolder(originalFile: TFile) {
 		const folderPath = originalFile.parent.path
-		const newFile = folderPath + "/" + originalFile.basename + " 1." + originalFile.extension 
-		this.app.vault.copy(originalFile, newFile)
+		const newFilePath = folderPath + "/" + originalFile.basename + " 1." + originalFile.extension 
+		const newFile = this.app.vault.copy(originalFile, newFilePath)
+
+		this.app.workspace.activeLeaf.openFile(await newFile)
 	}
 
 	onunload() {
