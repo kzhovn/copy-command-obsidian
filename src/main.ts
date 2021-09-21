@@ -26,7 +26,7 @@ export default class CopyPlugin extends Plugin {
 		});
 
 		this.registerEvent(
-			this.app.workspace.on("file-menu", (menu, _, source) => {
+			this.app.workspace.on("file-menu", (menu, file, source) => {
 
 				//don't show in menu if I don't have a file open
 				if (source !== "pane-more-options") {
@@ -37,8 +37,10 @@ export default class CopyPlugin extends Plugin {
 					.setTitle("Make a copy")
 					.setIcon(FILE_COPY_ICON)
 					.onClick(() => { 
-						const activeView = this.app.workspace.getActiveFile(); //return TFile
-						this.copyInFolder(activeView) });
+						if (file instanceof TFile) {
+							this.copyInFolder(file);
+						}
+					 });
 				});
 			})
 		);
