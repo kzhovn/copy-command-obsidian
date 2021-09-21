@@ -1,7 +1,6 @@
-import { Plugin, TFile, MarkdownView } from 'obsidian';
+import { Plugin, TFile } from 'obsidian';
 
 const FILE_COPY_ICON = "two-blank-pages"
-
 
 export default class CopyPlugin extends Plugin {
 
@@ -14,10 +13,9 @@ export default class CopyPlugin extends Plugin {
 			icon: FILE_COPY_ICON, //Obsidian default copy icon
 
 			checkCallback: (checking: boolean) => {
-				let leaf = this.app.workspace.activeLeaf;
 				const activeView = this.app.workspace.getActiveFile(); //return TFile
 
-				if (leaf && activeView) { //only show command if active note exists
+				if (activeView) { //only show command if active note exists
 					if (!checking ) {
 						this.copyInFolder(activeView);
 					}
@@ -48,11 +46,11 @@ export default class CopyPlugin extends Plugin {
 
 	//copy a file to the same folder with name "Old Name 1"
 	async copyInFolder(originalFile: TFile) {
-		const folderPath = originalFile.parent.path
-		const newFilePath = folderPath + "/" + originalFile.basename + " 1." + originalFile.extension 
-		const newFile = this.app.vault.copy(originalFile, newFilePath)
+		const folderPath = originalFile.parent.path;
+		const newFilePath = folderPath + "/" + originalFile.basename + " 1." + originalFile.extension;
+		const newFile = await this.app.vault.copy(originalFile, newFilePath);
 
-		this.app.workspace.activeLeaf.openFile(await newFile)
+		this.app.workspace.getLeaf().openFile(newFile);
 	}
 
 	onunload() {
