@@ -13,11 +13,11 @@ export default class CopyPlugin extends Plugin {
 			icon: FILE_COPY_ICON, //Obsidian default copy icon
 
 			checkCallback: (checking: boolean) => {
-				const activeView = this.app.workspace.getActiveFile(); //return TFile
+				const activeFile = this.app.workspace.getActiveFile(); //return TFile
 
-				if (activeView) { //only show command if active note exists
+				if (activeFile) { //only show command if active note exists
 					if (!checking ) {
-						this.copyInFolder(activeView);
+						this.copyInFolder(activeFile);
 					}
 					return true;
 				}
