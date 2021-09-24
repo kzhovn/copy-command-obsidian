@@ -62,13 +62,13 @@ export default class CopyPlugin extends Plugin {
 	}
 
 	//recursively copy a folder with name "Old Name 1" to newFolder, without renaming the contents
-	async copyFolder(originalFolder: TFolder, newFolderLocation: TFolder) {
+	async copyFolder(originalFolder: TFolder, newFolderLocation: TFolder, nameSuffix = " 1") {
 		let newFolderPath;
 		
 		if (newFolderLocation.path === "/") {
-			newFolderPath = originalFolder.name + " 1";;
+			newFolderPath = originalFolder.name + nameSuffix;
 		} else {
-			newFolderPath = newFolderLocation.path + "/" + originalFolder.name + " 1";;	
+			newFolderPath = newFolderLocation.path + "/" + originalFolder.name + nameSuffix;	
 		}
 
 		await this.app.vault.createFolder(newFolderPath);
@@ -81,7 +81,7 @@ export default class CopyPlugin extends Plugin {
 				await this.copyFile(child, newFolder, "", false); //no file name suffix, do not open after copying
 			} else if (child instanceof TFolder) {
 				//@ts-ignore
-				await this.copyFolder(child, newFolder);
+				await this.copyFolder(child, newFolder, "");
 			}
 		}
 	}
