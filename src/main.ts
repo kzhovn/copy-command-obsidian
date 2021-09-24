@@ -41,7 +41,7 @@ export default class CopyPlugin extends Plugin {
 						.setTitle("Copy folder")
 						.setIcon(FOLDER_COPY_ICON)
 						.onClick(() => { 
-							this.copyFolder(abstractFile);
+							this.copyFolder(abstractFile, abstractFile.parent);
 						 });
 					});
 				}
@@ -51,7 +51,9 @@ export default class CopyPlugin extends Plugin {
 
 	//copy a file to newFolder with name "Old Name 1"
 	async copyFile(originalFile: TFile, newFolder: TFolder, nameSuffix = " 1", openFile = true) {
-		const folderPath = newFolder.path;
+		console.log(originalFile.basename);
+		const folderPath = newFolder.path;	
+		
 		const newFilePath = folderPath + "/" + originalFile.basename + nameSuffix + "." + originalFile.extension;
 		const newFile = await this.app.vault.copy(originalFile, newFilePath);
 
@@ -60,10 +62,9 @@ export default class CopyPlugin extends Plugin {
 		}
 	}
 
-	//recursively copy a folder with name "Old Name 1" within its original folder, without renaming the contents
-	async copyFolder(originalFolder: TFolder) {
-		const folderPath = originalFolder.parent.path;
-		const newFolderPath = folderPath + "/" + originalFolder.name + " 1";
+	//recursively copy a folder with name "Old Name 1" to newFolder, without renaming the contents
+	async copyFolder(originalFolder: TFolder, newFolderLocation: TFolder) {
+		const newFolderPath = newFolderLocation.path + "/" + originalFolder.name + " 1";
 		await this.app.vault.createFolder(newFolderPath);
 
 		const newFolder = this.app.vault.getAbstractFileByPath(newFolderPath);
