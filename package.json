@@ -1,6 +1,6 @@
 {
   "name": "copy-note",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Augments native Obsidian note copying",
   "main": "main.js",
   "scripts": {
