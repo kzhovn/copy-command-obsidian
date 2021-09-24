@@ -1,6 +1,7 @@
 import { Plugin, TFile, TFolder } from 'obsidian';
 
-const FILE_COPY_ICON = "two-blank-pages"
+const FILE_COPY_ICON = "documents"
+const FOLDER_COPY_ICON = "two-blank-pages"
 
 export default class CopyPlugin extends Plugin {
 
@@ -38,7 +39,7 @@ export default class CopyPlugin extends Plugin {
 				} else if (abstractFile instanceof TFolder && source === "file-explorer-context-menu") {
 					menu.addItem((item) => { item
 						.setTitle("Copy folder")
-						.setIcon(FILE_COPY_ICON)
+						.setIcon(FOLDER_COPY_ICON)
 						.onClick(() => { 
 							this.copyFolder(abstractFile);
 						 });
@@ -49,15 +50,17 @@ export default class CopyPlugin extends Plugin {
 	}
 
 	//copy a file to newFolder with name "Old Name 1"
-	async copyFile(originalFile: TFile, newFolder: TFolder) {
+	async copyFile(originalFile: TFile, newFolder: TFolder, nameSuffix = " 1", openFile = true) {
 		const folderPath = newFolder.path;
-		const newFilePath = folderPath + "/" + originalFile.basename + " 1." + originalFile.extension;
+		const newFilePath = folderPath + "/" + originalFile.basename + nameSuffix + "." + originalFile.extension;
 		const newFile = await this.app.vault.copy(originalFile, newFilePath);
 
-		this.app.workspace.getLeaf().openFile(newFile);
+		if (openFile === true) { 
+			this.app.workspace.getLeaf().openFile(newFile);
+		}
 	}
 
-	//recursively copy a folder with name "Old Name 1" to folder newFolder
+	//recursively copy a folder with name "Old Name 1" within its original folder, without renaming the contents
 	async copyFolder(originalFolder: TFolder) {
 		const folderPath = originalFolder.parent.path;
 		const newFolderPath = folderPath + "/" + originalFolder.name + " 1";
@@ -69,10 +72,10 @@ export default class CopyPlugin extends Plugin {
 		for (const child of originalFolder.children) {
 			if (child instanceof TFile) {
 				//@ts-ignore
-				this.copyFile(child, newFolder);
+				await this.copyFile(child, newFolder, "", false); //no file name suffix, do not open after copying
 			} else if (child instanceof TFolder) {
 				//@ts-ignore
-				this.copyFolder(child, newFolder);
+				await this.copyFolder(child, newFolder);
 			}
 		}
 	}
