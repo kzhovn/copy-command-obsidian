@@ -50,11 +50,10 @@ export default class CopyPlugin extends Plugin {
 	}
 
 	//copy a file to newFolder with name "Old Name 1"
-	async copyFile(originalFile: TFile, newFolder: TFolder, nameSuffix = " 1", openFile = true) {
-		console.log(originalFile.basename);
-		const folderPath = newFolder.path;	
+	async copyFile(originalFile: TFile, newFileLocation: TFolder, nameSuffix = " 1", openFile = true) {		
+		let newFileLocationPath = newFileLocation.path;	
 		
-		const newFilePath = folderPath + "/" + originalFile.basename + nameSuffix + "." + originalFile.extension;
+		const newFilePath = newFileLocationPath + "/" + originalFile.basename + nameSuffix + "." + originalFile.extension;
 		const newFile = await this.app.vault.copy(originalFile, newFilePath);
 
 		if (openFile === true) { 
@@ -64,9 +63,15 @@ export default class CopyPlugin extends Plugin {
 
 	//recursively copy a folder with name "Old Name 1" to newFolder, without renaming the contents
 	async copyFolder(originalFolder: TFolder, newFolderLocation: TFolder) {
-		const newFolderPath = newFolderLocation.path + "/" + originalFolder.name + " 1";
-		await this.app.vault.createFolder(newFolderPath);
+		let newFolderPath;
+		
+		if (newFolderLocation.path === "/") {
+			newFolderPath = originalFolder.name + " 1";;
+		} else {
+			newFolderPath = newFolderLocation.path + "/" + originalFolder.name + " 1";;	
+		}
 
+		await this.app.vault.createFolder(newFolderPath);
 		const newFolder = this.app.vault.getAbstractFileByPath(newFolderPath);
 
 		//@ts-ignore I promise it's a folder I just made it if it isn't we have problems
