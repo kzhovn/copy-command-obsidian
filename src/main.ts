@@ -32,7 +32,7 @@ export default class CopyPlugin extends Plugin {
 					menu.addItem((item) => { item
 						.setTitle("Make a copy")
 						.setIcon(FILE_COPY_ICON)
-						.onClick(() => { 
+						.onClick(() => {
 							this.copyFile(abstractFile, abstractFile.parent);
 						 });
 					});
@@ -40,7 +40,7 @@ export default class CopyPlugin extends Plugin {
 					menu.addItem((item) => { item
 						.setTitle("Copy folder")
 						.setIcon(FOLDER_COPY_ICON)
-						.onClick(() => { 
+						.onClick(() => {
 							this.copyFolder(abstractFile, abstractFile.parent);
 						 });
 					});
@@ -50,25 +50,28 @@ export default class CopyPlugin extends Plugin {
 	}
 
 	//copy a file to newFolder with name "Old Name 1"
-	async copyFile(originalFile: TFile, newFileLocation: TFolder, nameSuffix = " 1", openFile = true) {		
-		let newFileLocationPath = newFileLocation.path;	
-		
+	async copyFile(originalFile: TFile, newFileLocation: TFolder, nameSuffix = " 1", openFile = true) {
+		let newFileLocationPath = newFileLocation.path;
+
 		const newFilePath = newFileLocationPath + "/" + originalFile.basename + nameSuffix + "." + originalFile.extension;
 		const newFile = await this.app.vault.copy(originalFile, newFilePath);
 
-		if (openFile === true) { 
+		if (openFile === true) {
 			this.app.workspace.getLeaf().openFile(newFile);
+			const name = 'view-header-title';
+			//@ts-ignore
+			document.getElementsByClassName(name)[0].focus();
 		}
 	}
 
 	//recursively copy a folder with name "Old Name 1" to newFolder, without renaming the contents
 	async copyFolder(originalFolder: TFolder, newFolderLocation: TFolder, nameSuffix = " 1") {
 		let newFolderPath;
-		
+
 		if (newFolderLocation.path === "/") {
 			newFolderPath = originalFolder.name + nameSuffix;
 		} else {
-			newFolderPath = newFolderLocation.path + "/" + originalFolder.name + nameSuffix;	
+			newFolderPath = newFolderLocation.path + "/" + originalFolder.name + nameSuffix;
 		}
 
 		await this.app.vault.createFolder(newFolderPath);
